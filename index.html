@@ -184,7 +184,7 @@
           <p>
             With this formulation, we train <b>a single multi-task Transformer</b> for 18
             <a target="_blank" href="https://sites.google.com/view/rlbench">RLBench</a> and 7 real-world tasks with just a few demonstrations per task. Our
-            results show that We investigate this question with <span class="dperact">PerAct</span> significantly outperforms unstructured image-to-action
+            results show that <span class="dperact">PerAct</span> significantly outperforms unstructured image-to-action
             agents and 3D ConvNet baselines for a wide range of tabletop tasks.
           </p>
         </div>
@@ -226,7 +226,7 @@
         <!-- <br> -->
         </div>
         <p>
-          <span class="dperact">PerAct</span> is a language-conditioned behavior-cloning agent trained with supervised learning to <i>detect actions</i>. Instead of using object-detectors, instance-segmentors, or pose-estimators to represent a scene, <span class="dperact">PerAct</span> directly learns perceptual representations of actions conditioned on language goals. This <a target="_blank" href="https://en.wikipedia.org/wiki/Ecological_psychology">action-centric approach</a> to perception makes <span class="dperact">PerAct</span> applicable to a broad range of tasks involving articulated objects, deformable objects, granular media, and even some non-prehensile interactions. 
+          <span class="dperact">PerAct</span> is a language-conditioned behavior-cloning agent trained with supervised learning to <i>detect actions</i>. Instead of using object-detectors, instance-segmentors, or pose-estimators to represent a scene and then learning a policy, <span class="dperact">PerAct</span> directly learns <b>perceptual representations of actions</b> conditioned on language goals. This <a target="_blank" href="https://en.wikipedia.org/wiki/Ecological_psychology">action-centric approach</a> with a unified observation and action space, makes <span class="dperact">PerAct</span> applicable to a broad range of tasks involving articulated objects, deformable objects, granular media, and even some non-prehensile interactions using tools.  
         </p>
         </br>
         </br>
@@ -235,17 +235,17 @@
         </br>
         </br>
           <p>
-              <span class="dperact">PerAct</span> takes as input a language goal and a voxel grid reconstructed from RGB-D sensors. The voxels are split into 3D patches (like <a target="_blank" href="https://arxiv.org/abs/2010.11929">vision transformers</a> split images into 2D patches), and the language goal is encoded with a pre-trained language model. These language and voxel features are appended together as a sequence and encoded with a <a target=”_blank” href="https://www.deepmind.com/blog/building-architectures-that-can-handle-the-worlds-data">PerceiverIO Transformer</a>. The encoded features are upsampled back to the original voxel dimensions with a decoder, and reshaped with linear layers to predict discretized translation, rotation, gripper open, and collision avoidance actions. 
-              This action is executed with a motion-planner after which the new observation is used to predict the next discrete action in an observe-act loop until termination.
+              <span class="dperact">PerAct</span> takes as input a language goal and a voxel grid reconstructed from RGB-D sensors. The voxels are split into 3D patches (like <a target="_blank" href="https://arxiv.org/abs/2010.11929">vision transformers</a> split images into 2D patches), and the language goal is encoded with a pre-trained language model. These language and voxel features are appended together as a sequence and encoded with a <a target=”_blank” href="https://www.deepmind.com/blog/building-architectures-that-can-handle-the-worlds-data">PerceiverIO Transformer</a> to learn per-voxel features. These features are then reshaped with linear layers to predict a discretized translation, rotation, gripper open, and collision avoidance action. 
+              This action is executed with a motion-planner after which the new observation is used to predict the next discrete action in an observe-act loop until termination. Overall, the voxelized observation and action space provides a strong structural prior for efficiently learning 6-DoF polices.
           </p>
         </br>
         </br>
         <h3 class="title is-4">Encoding High-Dimensional Input</h3>
           <p class="justify">
             <img src="media/figures/perceiver.png" class="interpolation-image" width="480" align="right"
-                 style="margin:-2% 4% "
+                 style="margin:0% 4% "
                  alt="Interpolate start reference image." />
-             The input grid is 100x100x100 = 1 million voxels. After extracting 5x5x5 patches, the input is 20x20x20 = 8000 encodings long. Despite this long sequence, Perceiver uses a small set of latent vectors to encode the input. These latent vectors are randomly initialized and trained end-to-end. This approach decouples the depth of the Transformer self-attention layers from the dimensionality of the input space, which allows us train agents on very large input voxel grids. 
+             The input grid is 100&times;100&times;100 = 1 million voxels. After extracting 5&times;5&times;5 patches, the input is 20&times;20&times;20 = 8000 embeddings long. Despite this long sequence, Perceiver uses a small set of latent vectors to encode the input. These latent vectors are randomly initialized and trained end-to-end. This approach decouples the depth of the Transformer self-attention layers from the dimensionality of the input space, which allows us train <span class="dperact">PerAct</span> on very large input voxel grids. Perceiver has been deployed in several domains like <a target="_blank" href="https://www.deepmind.com/publications/perceiver-ar-general-purpose-long-context-autoregressive-generation">long-context auto-regressive generation</a>, <a target="_blank" href="https://arxiv.org/abs/2204.14198">vision-language models for few-shot learning</a>, <a target="_blank" href="https://arxiv.org/abs/2107.14795">image and audio classification, and optical flow prediction.</a>
           </p>
         <br/>
         <br/>
