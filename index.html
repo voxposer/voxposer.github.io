@@ -9,6 +9,50 @@
   <title>PerAct</title>
 
 
+  <script>
+    function updateSingleVideo() {
+      var demo = document.getElementById("single-menu-demos").value;
+      var task = document.getElementById("single-menu-tasks").value;
+      var inst = document.getElementById("single-menu-instances").value;
+
+      console.log("single", demo, task, inst)
+
+      var video = document.getElementById("multi-task-result-video");
+      video.src = "media/results/sim_rollouts/" + 
+                  "n" +
+                  demo +
+                  "-" +
+                  task +
+                  "-" +
+                  inst +
+                  ".mp4"
+      video.playbackRate = 1.75;
+      video.play();
+    }
+
+    function updateMultiVideo() {
+      var demo = document.getElementById("multi-menu-demos").value;
+      var task = document.getElementById("multi-menu-tasks").value;
+      var inst = document.getElementById("multi-menu-instances").value;
+
+      console.log("multi", demo, task, inst)
+
+      var video = document.getElementById("multi-task-result-video");
+      video.src = "https://homes.cs.washington.edu/~mshr/cliport/results_web/" + 
+                  task + 
+                  "-two_stream_full_clip_lingunet_lat_transporter-n" + 
+                  demo + 
+                  "-train/videos/multi-language-conditioned-" + 
+                  task +
+                  "-0000" + 
+                  inst + 
+                  ".mp4";
+      video.playbackRate = 1.75;
+      video.play();
+    }
+
+  </script>
+
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
 
@@ -26,7 +70,7 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 </head>
-<body>
+<body onload="updateSingleVideo()">
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -251,7 +295,73 @@
         <br/>
         <br/>
 
-        
+        <!--/ Re-rendering. -->
+
+        <h2 class="title is-3">Results</h2>
+
+        <h3 class="title is-4">Simulation Results</h3>
+
+        <div class="columns">
+          <div class="column has-text-centered">
+            <h3 class="title is-5">One Multi-Task Transformer</h3>
+
+            Trained with
+            <div class="select is-small">
+              <select id="single-menu-demos" onchange="updateSingleVideo()">
+              <option value="10">10</option>
+              <option value="100" selected="selected">100</option>
+              </select>
+            </div>
+            demos per task, evaluated on 
+            <div class="select is-small">     
+              <select id="single-menu-tasks" onchange="updateSingleVideo()">
+              <option value="open_drawer" selected="selected">open drawer</option>
+              <option value="slide_block">slide block</option>
+              <option value="sweep_to_dustpan">sweep to dustpan</option>
+              <option value="meat_off_grill">meat off grill</option>
+              <option value="turn_tap">turn tap</option>
+              <option value="put_in_drawer">put in drawer</option>
+              <option value="close_jar">close jar</option>
+              <option value="drag_stick">drag stick</option>
+              <option value="stack_blocks">stack blocks</option>
+              <option value="screw_bulb">screw bulb</option>
+              <option value="put_in_safe">put in safe</option>
+              <option value="place_wine">place wine</option>
+              <option value="put_in_cupboard">put in cupboard</option>
+              <option value="sort_shape">sort shape</option>
+              <option value="push_buttons">push buttons</option>
+              <option value="insert_peg">insert peg</option>
+              <option value="stack_cups">stack cups</option>
+              <option value="place_cups">place cups</option>
+              </select>
+            </div>
+            instance
+            <div class="select is-small">
+              <select id="single-menu-instances" onchange="updateSingleVideo()">
+              <option value="s1">01</option>
+              <option value="s2" selected="selected">02</option>
+              <option value="s3">03</option>
+              <option value="s4">04</option>
+              <option value="s5">05</option>
+              </select>
+            </div>
+            <br/>
+            <br/>
+
+            <video id="multi-task-result-video"
+                   controls
+                   muted
+                   autoplay
+                   loop
+                   width="75%">
+              <source src="media/results/sim_rollouts/n10-open_drawer-s2.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+
+          
+        </div>
+        </br>
 
       </div>
     </div>
