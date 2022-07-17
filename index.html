@@ -30,23 +30,15 @@
       video.play();
     }
 
-    function updateMultiVideo() {
-      var demo = document.getElementById("multi-menu-demos").value;
-      var task = document.getElementById("multi-menu-tasks").value;
-      var inst = document.getElementById("multi-menu-instances").value;
+    function updateQpredVideo() {
+      var task = document.getElementById("single-menu-qpred").value;
 
-      console.log("multi", demo, task, inst)
+      console.log("qpred", task)
 
-      var video = document.getElementById("multi-task-result-video");
-      video.src = "https://homes.cs.washington.edu/~mshr/cliport/results_web/" + 
+      var video = document.getElementById("q-pred-video");
+      video.src = "media/results/qpred/" + 
                   task + 
-                  "-two_stream_full_clip_lingunet_lat_transporter-n" + 
-                  demo + 
-                  "-train/videos/multi-language-conditioned-" + 
-                  task +
-                  "-0000" + 
-                  inst + 
-                  ".mp4";
+                  ".mp4"
       video.playbackRate = 1.75;
       video.play();
     }
@@ -70,7 +62,7 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 </head>
-<body onload="updateSingleVideo()">
+<body onload="updateSingleVideo(); updateQpredVideo();">
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -353,15 +345,31 @@
                    muted
                    autoplay
                    loop
-                   width="75%">
+                   width="100%">
               <source src="media/results/sim_rollouts/n10-open_drawer-s2.mp4"
                       type="video/mp4">
             </video>
           </div>
-
-          
         </div>
         </br>
+        </br>
+
+        <h3 class="title is-4">Action Predictions</h3>
+
+        <div class="columns">
+          <div class="column has-text-centered">
+            <h3 class="title is-5">Q-Prediction Examples</h3>
+
+            Visualize predictions for   
+            <div class="select is-small is-rounded">     
+              <select id="single-menu-qpred" onchange="updateQpredVideo()">
+              <option value="tomato" selected="selected">"put the tomatoes in the top bin"</option>
+              <option value="stick">"hit the green ball with the stick"</option>
+              <option value="handsan">"press the hand san"</option>
+              <option value="tape">"put the tape in the top drawer"</option>
+              </select>
+            </div>
+          </div>
 
       </div>
     </div>
@@ -369,7 +377,18 @@
   </div>
 </section>
 
+<video id="q-pred-video"
+       controls
+       muted
+       autoplay
+       loop
+       width="100%">
+  <source src="media/results/qpred/tomato.mp4"
+          type="video/mp4">
+</video>
 
+<br/>
+<br/>
 
 <footer class="footer">
   <div class="container">
