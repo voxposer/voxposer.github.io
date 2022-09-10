@@ -264,9 +264,9 @@
           </p>
           <p>
             With this formulation, we train <b>a single multi-task Transformer</b> for 18
-            <a target="_blank" href="https://sites.google.com/view/rlbench">RLBench</a> and 7 real-world tasks with just a few demonstrations per task. Our
+            <a target="_blank" href="https://sites.google.com/view/rlbench">RLBench</a> (with 249 variations) and 7 real-world tasks (with 18 variations) from just a few demonstrations per task. Our
             results show that <span class="dperact">PerAct</span> significantly outperforms unstructured image-to-action
-            agents and 3D ConvNet baselines for a wide range of tabletop tasks.
+            agents (by 34x) and 3D ConvNet baselines (by 2.8x) for a wide range of tabletop tasks.
           </p>
         </div>
       </div>
@@ -318,7 +318,7 @@
           <p>
               <span class="dperact">PerAct</span> takes as input a language goal and a voxel grid reconstructed from RGB-D sensors. The voxels are split into 3D patches (like <a target="_blank" href="https://arxiv.org/abs/2010.11929">vision transformers</a> split images into 2D patches), and the language goal is encoded with a pre-trained language model. The language and voxel features are appended together as a sequence and encoded with a <a target=”_blank” href="https://www.deepmind.com/blog/building-architectures-that-can-handle-the-worlds-data">PerceiverIO Transformer</a> to learn per-voxel features. These features are then reshaped with linear layers to predict a discretized translation, rotation, gripper open, and collision avoidance action, which can be executed with a motion-planner. 
               <!-- This action is executed with a motion-planner after which the new observation is used to predict the next discrete action in an observe-act loop until termination.  -->
-              Overall, the voxelized observation and action space provides a strong structural prior for efficiently learning 6-DoF polices.
+              Overall, the voxelized observation and action space provides a strong structural prior for efficiently learning 6-DoF polices. Checkout our <a target="_blank" href="https://colab.research.google.com/drive/1wpaosDS94S0rmtGmdnP0J1TjS7mEM14V?usp=sharing">Colab Tutorial</a> for an annotated guide on implemententing <span class="dperact">PerAct</span> and training it from scratch on a single GPU.
           </p>
         </br>
         </br>
