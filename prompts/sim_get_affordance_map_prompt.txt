@@ -1,0 +1,177 @@
+import numpy as np
+from perception_utils import parse_query_obj
+from plan_utils import get_empty_affordance_map, set_voxel_by_radius, cm2index
+
+# Query: a point 10cm in front of [10, 15, 60].
+affordance_map = get_empty_affordance_map()
+# in front so we add to x
+x = 10 + cm2index(10, 'x')
+y = 15
+z = 60
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point on the back side of the table.
+affordance_map = get_empty_affordance_map()
+table = parse_query_obj('table')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = table.aabb
+center_x, center_y, center_z = table.position
+# back side so x = min_x
+x = min_x
+y = center_y
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 21cm on top of the green block.
+affordance_map = get_empty_affordance_map()
+green_block = parse_query_obj('green block')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = green_block.aabb
+center_x, center_y, center_z = green_block.position
+# 21cm on top so z = max_z + 21cm
+x = center_x
+y = center_y
+z = max_z + cm2index(21, 'z')
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 1cm to the left of the brown block.
+affordance_map = get_empty_affordance_map()
+brown_block = parse_query_obj('brown block')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = brown_block.aabb
+center_x, center_y, center_z = brown_block.position
+# 1cm to the left so y = min_y - 1cm
+x = center_x
+y = min_y - cm2index(1, 'y')
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: anywhere within 15cm of the right most block.
+affordance_map = get_empty_affordance_map()
+right_most_block = parse_query_obj('the right most block')
+set_voxel_by_radius(affordance_map, right_most_block.position, radius_cm=15, value=1)
+ret_val = affordance_map
+
+# Query: a point on the back side of the table.
+affordance_map = get_empty_affordance_map()
+table = parse_query_obj('table')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = table.aabb
+center_x, center_y, center_z = table.position
+# back side so x = min_x
+x = min_x
+y = center_y
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point on the front right corner of the table.
+affordance_map = get_empty_affordance_map()
+table = parse_query_obj('table')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = table.aabb
+center_x, center_y, center_z = table.position
+# front right corner -> front so x = max_x, right so y = max_y
+x = max_x
+y = max_y
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 30cm into the topmost drawer handle.
+affordance_map = get_empty_affordance_map()
+top_handle = parse_query_obj('topmost drawer handle')
+# negative normal because we are moving into the handle.
+moving_dir = -top_handle.normal
+affordance_xyz = top_handle.position + cm2index(30, moving_dir)
+affordance_map[affordance_xyz[0], affordance_xyz[1], affordance_xyz[2]] = 1
+ret_val = affordance_map
+
+# Query: a point 9cm to the left of the blue block.
+affordance_map = get_empty_affordance_map()
+blue_block = parse_query_obj('blue block')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = blue_block.aabb
+center_x, center_y, center_z = blue_block.position
+# 9cm to the left so y = min_y - 9cm
+x = center_x
+y = min_y - cm2index(9, 'y')
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 21cm away from the leftmost block.
+affordance_map = get_empty_affordance_map()
+leftmost_block = parse_query_obj('leftmost block')
+# positive normal because we are moving away from the block.
+moving_dir = leftmost_block.normal
+affordance_xyz = leftmost_block.position + cm2index(21, moving_dir)
+affordance_map[affordance_xyz[0], affordance_xyz[1], affordance_xyz[2]] = 1
+ret_val = affordance_map
+
+# Query: a point 7cm above the tray that contains the lemon.
+affordance_map = get_empty_affordance_map()
+tray_with_lemon = parse_query_obj('tray that contains the lemon')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = tray_with_lemon.aabb
+center_x, center_y, center_z = tray_with_lemon.position
+# 7cm above so z = max_z + 7cm
+x = center_x
+y = center_y
+z = max_z + cm2index(7, 'z')
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 3cm to the left of [45, 49, 99].
+affordance_map = get_empty_affordance_map()
+# left so y = 49 - 3cm
+x = 45
+y = 49 - cm2index(3, 'y')
+z = 99
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: the brown line.
+brown_line = parse_query_obj('brown line')
+affordance_map = brown_line.occupancy_map
+ret_val = affordance_map
+
+# Query: a point 13cm to the left of the gripper.
+affordance_map = get_empty_affordance_map()
+gripper = parse_query_obj('gripper')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = gripper.aabb
+center_x, center_y, center_z = gripper.position
+# 13cm to the left so y = min_y - 13cm
+x = center_x
+y = min_y - cm2index(13, 'y')
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 17cm above the back left corner of the table.
+affordance_map = get_empty_affordance_map()
+table = parse_query_obj('table')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = table.aabb
+center_x, center_y, center_z = table.position
+# 17cm on top of back left corner so x = min_x, y = min_y, z = max_z + 17cm
+x = min_x
+y = min_y
+z = max_z + cm2index(17, 'z')
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point at the center of the green block.
+affordance_map = get_empty_affordance_map()
+green_block = parse_query_obj('green block')
+center_x, center_y, center_z = green_block.position
+affordance_map[center_x, center_y, center_z] = 1
+ret_val = affordance_map
+
+# Query: the right side of the table.
+affordance_map = get_empty_affordance_map()
+table = parse_query_obj('table')
+(min_x, min_y, min_z), (max_x, max_y, max_z) = table.aabb
+center_x, center_y, center_z = table.position
+# right side so y = max_y
+x = center_x
+y = max_y
+z = center_z
+affordance_map[x, y, z] = 1
+ret_val = affordance_map

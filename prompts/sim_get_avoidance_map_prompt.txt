@@ -1,0 +1,60 @@
+import numpy as np
+from perception_utils import parse_query_obj
+from plan_utils import get_empty_avoidance_map, set_voxel_by_radius, cm2index
+
+# Query: 11cm from the blue block.
+avoidance_map = get_empty_avoidance_map()
+blue_block = parse_query_obj('blue block')
+set_voxel_by_radius(avoidance_map, blue_block.position, radius_cm=11, value=1)
+ret_val = avoidance_map
+
+# Query: 7cm near the pink block.
+avoidance_map = get_empty_avoidance_map()
+pink_block = parse_query_obj('pink block')
+set_voxel_by_radius(avoidance_map, pink_block.position, radius_cm=7, value=1)
+ret_val = avoidance_map
+
+# Query: 13cm around the brown block and 5cm around the green block.
+avoidance_map = get_empty_avoidance_map()
+brown_block = parse_query_obj('brown block')
+set_voxel_by_radius(avoidance_map, brown_block.position, radius_cm=13, value=1)
+green_block = parse_query_obj('green block')
+set_voxel_by_radius(avoidance_map, green_block.position, radius_cm=5, value=1)
+ret_val = avoidance_map
+
+# Query: the blue line.
+blue_line = parse_query_obj('blue_line')
+avoidance_map = blue_line.occupancy_map
+ret_val = avoidance_map
+
+# Query: anywhere on the front side of the blue block.
+avoidance_map = get_empty_avoidance_map()
+blue_block = parse_query_obj('blue block')
+center_x, center_y, center_z = blue_block.position
+# front side so x > center_x
+avoidance_map[center_x:, :, :] = 1
+ret_val = avoidance_map
+
+# Query: anywhere on the left of the green block.
+avoidance_map = get_empty_avoidance_map()
+green_block = parse_query_obj('green block')
+center_x, center_y, center_z = green_block.position
+# left side so y < center_y
+avoidance_map[:, :center_y, :] = 1
+ret_val = avoidance_map
+
+# Query: anywhere behind the pink block.
+avoidance_map = get_empty_avoidance_map()
+pink_block = parse_query_obj('pink block')
+center_x, center_y, center_z = pink_block.position
+# behind so x < center_x
+avoidance_map[:center_x, :, :] = 1
+ret_val = avoidance_map
+
+# Query: anywhere above the brown block.
+avoidance_map = get_empty_avoidance_map()
+brown_block = parse_query_obj('brown block')
+center_x, center_y, center_z = brown_block.position
+# above so z > center_z
+avoidance_map[:, :, center_z:] = 1
+ret_val = avoidance_map

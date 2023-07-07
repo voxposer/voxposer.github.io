@@ -1,0 +1,25 @@
+import numpy as np
+from plan_utils import get_empty_rotation_map, set_voxel_by_radius, cm2index, vec2quat
+from perception_utils import parse_query_obj
+
+# Query: face the green block.
+rotation_map = get_empty_rotation_map()
+green_block = parse_query_obj('green block')
+target_rotation = vec2quat(-green_block.normal)
+rotation_map[:, :, :] = target_rotation
+ret_val = rotation_map
+
+# Query: face the table when within 30cm from table center.
+rotation_map = get_empty_rotation_map()
+table = parse_query_obj('table')
+table_center = table.position
+target_rotation = vec2quat(-table.normal)
+set_voxel_by_radius(rotation_map, table_center, radius_cm=30, value=target_rotation)
+ret_val = rotation_map
+
+# Query: face the topmost drawer handle.
+rotation_map = get_empty_rotation_map()
+topmost_drawer_handle = parse_query_obj('topmost drawer handle')
+target_rotation = vec2quat(-topmost_drawer_handle.normal)
+rotation_map[:, :, :] = target_rotation
+ret_val = rotation_map

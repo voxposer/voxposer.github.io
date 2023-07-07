@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="PerAct: A Multi-Task Transformer for Robotic Manipulation">
-  <meta name="keywords" content="Transformers, Language Grounding, Manipulation">
+        content="VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models">
+  <meta name="keywords" content="Robotic Manipulation, Language Models">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PerAct</title>
+  <title>VoxPoser</title>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FV4ZJ9PVSV"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FV4ZJ9PVSV"></script>  
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -18,38 +18,47 @@
   </script>
 
   <script>
-    function updateSingleVideo() {
-      var demo = document.getElementById("single-menu-demos").value;
-      var task = document.getElementById("single-menu-tasks").value;
-      var inst = document.getElementById("single-menu-instances").value;
 
-      console.log("single", demo, task, inst)
+    function updateInteractive() {
+      var task = document.getElementById("interative-menu").value;
 
-      var video = document.getElementById("multi-task-result-video");
-      video.src = "media/results/sim_rollouts/" + 
-                  "n" +
-                  demo +
-                  "-" +
-                  task +
-                  "-" +
-                  inst +
-                  ".mp4"
-      video.playbackRate = 1.75;
-      video.play();
+      console.log("interactive", task)
+
+      // if task does not contain the string "towel"
+      if (task.indexOf("towel") == -1) {
+        var video = document.getElementById("interactive-video");
+        video.src = "media/videos/" + 
+                    task + 
+                    ".mp4"
+        video.play();
+
+        var html = document.getElementById("interactive-html-1");
+        html.src = "media/interactive/" + 
+                    task + 
+                    ".html"
+
+        // hide the second iframe container
+        var iframeContainer2 = document.getElementById("second-iframe-container");
+        iframeContainer2.style.display = "none";
+      } else {
+        var video = document.getElementById("interactive-video");
+        video.src = "media/videos/hang-towel.mp4"
+        video.play();
+
+        var html1 = document.getElementById("interactive-html-1");
+        html1.src = "media/interactive/hang-towel-1.html"
+
+        // show and set the source for the second iframe
+        var html2 = document.getElementById("interactive-html-2");
+        html2.src = "media/interactive/hang-towel-2.html"
+
+        // show the second iframe container
+        var iframeContainer2 = document.getElementById("second-iframe-container");
+        iframeContainer2.style.display = "block";
+      }
     }
 
-    function updateQpredVideo() {
-      var task = document.getElementById("single-menu-qpred").value;
 
-      console.log("qpred", task)
-
-      var video = document.getElementById("q-pred-video");
-      video.src = "media/results/qpred/" + 
-                  task + 
-                  ".mp4"
-      video.playbackRate = 1.75;
-      video.play();
-    }
 
   </script>
 
@@ -70,75 +79,45 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 </head>
-<body onload="updateSingleVideo(); updateQpredVideo();">
-
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" target="_blank" href="https://mohitshridhar.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" target="_blank" href="https://cliport.github.io">
-            CLIPort
-          </a>
-          <a class="navbar-item" target="_blank" href="https://askforalfred.com/">
-            ALFRED
-          </a>
-          <a class="navbar-item" target="_blank" href="http://alfworld.github.io/">
-            ALFWorld
-          </a>
-          <a class="navbar-item" target="_blank" href="https://arxiv.org/pdf/1806.03831.pdf">
-            INGRESS
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav>
+<body onload="updateInteractive();">
 
 <section class="hero">
   <div class="hero-body">
-    <div class="container is-max-desktop">
+    <div class="container is-fullhd">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Perceiver-Actor: A Multi-Task Transformer <br> for Robotic Manipulation</h1>
-          <h3 class="title is-4 conference-authors"><a target="_blank" href="https://www.robot-learning.org/">CoRL 2022</a></h3>
+          <h1 class="title is-1 publication-title">VoxPoser: Composable 3D Value Maps<br>for Robotic Manipulation with Language Models</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a target="_blank" href="https://mohitshridhar.com/">Mohit Shridhar</a><sup>1</sup>,</span>
+              <a target="_blank" href="https://huangwl18.github.io/">Wenlong Huang</a><sup>1</sup>,
+            </span>
             <span class="author-block">
-              <a target="_blank" href="http://lucasmanuelli.com/">Lucas Manuelli</a><sup>2</sup>,</span>
+              <a target="_blank" href="https://www.chenwangjeremy.net/">Chen Wang</a><sup>1</sup>,
+            </span>
             <span class="author-block">
-              <a target="_blank" href="https://homes.cs.washington.edu/~fox/">Dieter Fox</a><sup>1, 2</sup>
+              <a target="_blank" href="https://ai.stanford.edu/~zharu/">Ruohan Zhang</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://yunzhuli.github.io/">Yunzhu Li</a><sup>1, 2</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://jiajunwu.com/">Jiajun Wu</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://profiles.stanford.edu/fei-fei-li">Li Fei-Fei</a><sup>1</sup>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>NVIDIA</span>
+            <span class="author-block"><sup>1</sup>Stanford University,</span>
+            <span class="author-block"><sup>2</sup>University of Illinois Urbana-Champaign</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a target="_blank" href="paper/peract_corl2022.pdf"
+                <a target="_blank" href="voxposer.pdf"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -149,7 +128,7 @@
 
             <!-- Arxiv Link. -->
             <span class="link-block">
-              <a target="_blank" href="https://arxiv.org/abs/2209.05451"
+              <a target="_blank" href="https://voxposer.github.io"
                  class="external-link button is-normal is-rounded is-dark">
                 <span class="icon">
                     <i class="fas fa-file"></i>
@@ -160,7 +139,7 @@
 
             <!-- Video Link. -->
             <span class="link-block">
-              <a target="_blank" href="https://www.youtube.com/watch?v=TB0g52N-3_Y"
+              <a target="_blank" href="https://voxposer.github.io"
                  class="external-link button is-normal is-rounded is-dark">
                 <span class="icon">
                     <i class="fab fa-youtube"></i>
@@ -169,46 +148,18 @@
               </a>
             </span>
 
-            <!-- Talk Link. -->
-            <span class="link-block">
-              <a target="_blank" href="https://youtu.be/QcuXwmQgurE"
-                 class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </span>
-                <span>Talk</span>
-              </a>
-            </span>
-
-
-            <!-- Colab Link. -->
-            <span class="link-block">
-              <a target="_blank" href="https://colab.research.google.com/drive/1HAqemP4cE81SQ6QO1-N85j5bF4C0qLs0?usp=sharing"
-                 class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                </span>
-                <span>Colab</span>
-                </a>
-            </span>
-
             <!-- Code Link. -->
             <span class="link-block">
-              <a target="_blank" href="https://github.com/peract/peract"
+              <a target="_blank" href="https://voxposer.github.io"
                  class="external-link button is-normal is-rounded is-dark">
                 <span class="icon">
                     <i class="fab fa-github"></i>
                 </span>
-                <span>Code</span>
+                <span>Code (Coming Soon)</span>
                 </a>
             </span>
-
             </div>
           </div>
-<!--           <br>
-          <br> -->
-
-
         </div>
       </div>
     </div>
@@ -220,15 +171,15 @@
     <div class="hero-body">
       <div class="container">
         <div class="columns is-vcentered  is-centered">
-          <video id="teaser" autoplay muted loop height="100%">
-            <source src="media/intro/sim_rolling_v2.mp4"
+          <video id="teaser" autoplay muted loop height="60%" width="60%">
+            <source src="media/videos/teaser.m4v"
                     type="video/mp4">
           </video>
           </br>
         </div>
         <br>
         <h2 class="subtitle has-text-centered">
-        <span class="dperact">PerAct</span> is an end-to-end behavior-cloning agent that can learn <br><b>a single language-conditioned policy</b> for 18 RLBench tasks with <b>249 unique task variations</b>
+        <span class="dperact">VoxPoser</span> extracts <b>affordances</b> and <b>constraints</b> from large language models and vision-language models<br>to compose 3D value maps, which are used by motion planners to <b>zero-shot synthesize</b> trajectories for everyday manipulation tasks.
         </h2>
       </div>
     </div>
@@ -240,45 +191,69 @@
   <div class="hero-body">
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay muted loop height="100%">
-            <source src="media/intro/1_handsan.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/take-out-bread.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay muted loop height="100%">
-            <source src="media/intro/2_food_bin.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/close-drawer-dist.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay muted loop height="100%">
-            <source src="media/intro/4_drawer.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/put-trash-in-blue-tray-dist.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay muted loop height="100%">
-            <source src="media/intro/3_marker.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/turn-on-lamp.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay muted loop height="100%">
-            <source src="media/intro/5_stick.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/sweep-trash.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay muted loop height="100%">
-            <source src="media/intro/7_sweeping.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/place-utensils.mp4"
                     type="video/mp4">
           </video>
         </div>
-       <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay muted loop height="100%">
-            <source src="media/intro/6_blocks.mp4"
+        <div class="item">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/unplug-charger.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+       <div class="itemtp">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/get-napkin.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+       <div class="itemtp">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/hang-towel.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+       <div class="itemtp">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/measure-apple-weight.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+       <div class="itemtp">
+          <video poster="" autoplay muted loop height="100%">
+            <source src="media/videos/press-moisturizer.mp4"
                     type="video/mp4">
           </video>
         </div>
@@ -289,7 +264,7 @@
 </section>
 <h2 class="subtitle has-text-centered">
 </br>
-  We also train <b>one multi-task Transformer from scratch</b> on 7 real-world tasks with just <b>53 demos</b> in total.
+  VoxPoser can <b>zero-shot synthesize</b> trajectories for real-world manipulation tasks with an <b>open-set</b> of free-form language instructions and an <b>open-set</b> of objects.
 </h2>
 
 
@@ -301,44 +276,32 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Transformers have revolutionized vision and natural language processing 
-            with their ability to scale with large datasets. But in robotic manipulation, 
-            data is both limited and expensive. Can we still benefit from Transformers with the right problem formulation? 
-          </p>
-          <p>
-            We investigate this question with <span class="dperact">PerAct</span>, a
-            language-conditioned behavior-cloning agent for multi-task 6-DoF manipulation.
-            <span class="dperact">PerAct</span> encodes language goals and RGB-D voxel observations with a 
-            <a target=”_blank” href="https://www.deepmind.com/blog/building-architectures-that-can-handle-the-worlds-data">Perceiver Transformer</a>, and outputs discretized 
-            actions by “detecting the next best voxel action”. Unlike frameworks that operate on 2D images, the voxelized observation
-            and action space provides a strong structural prior for efficiently learning 6-DoF
-            policies. 
-          </p>
-          <p>
-            With this formulation, we train <b>a single multi-task Transformer</b> for 18
-            <a target="_blank" href="https://sites.google.com/view/rlbench">RLBench</a> (with 249 variations) and 7 real-world tasks (with 18 variations) from just a few demonstrations per task. Our
-            results show that <span class="dperact">PerAct</span> significantly outperforms unstructured image-to-action
-            agents (by 34x) and 3D ConvNet baselines (by 2.8x) for a wide range of tabletop tasks.
+Large language models (LLMs) are shown to possess a wealth of actionable knowledge that can be extracted for robot manipulation in the form of reasoning and planning. Despite the progress, most still rely on pre-defined motion primitives to carry out the physical interactions with the environment, which remains a major bottleneck.
+In this work, we aim to synthesize robot trajectories, i.e., a dense sequence of 6-DoF end-effector waypoints, for a large variety of manipulation tasks given an <i>open-set of instructions</i> and an <i>open-set of objects</i>.
+We achieve this by first observing that LLMs excel at inferring affordances and constraints given a free-form language instruction. More importantly, by leveraging their code-writing capabilities, they can interact with a visual-language model (VLM) to compose 3D value maps to ground the knowledge into the observation space of the agent.
+The composed value maps are then used in a model-based planning framework to <i>zero-shot</i> synthesize closed-loop robot trajectories with robustness to dynamic perturbations.
+We further demonstrate how the proposed framework can benefit from online experiences by efficiently learning a dynamics model for scenes that involve contact-rich interactions.
+We present a large-scale study of the proposed method in both simulated and real-robot environments, showcasing the ability to perform over 30 everyday manipulation tasks specified in free-form natural language.
           </p>
         </div>
       </div>
     </div>
-    <br>
-    <br>
     <!--/ Abstract. -->
 
   </div>
 
   <!-- Paper video. -->
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-two-thirds">
+<!--   
+  <div class="container is-max-widescreen">
+
+    <div class="rows">
       <h2 class="title is-3">Video</h2>
       <div class="publication-video">
         <iframe src="https://www.youtube.com/embed/TB0g52N-3_Y?rel=0&amp;showinfo=0"
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </section>
 
@@ -351,164 +314,175 @@
     <!-- Animation. -->
     <div class="rows is-centered ">
       <div class="row is-full-width">
-        <h2 class="title is-3"><span class="dperact">PerAct</span></h2>
+        <h2 class="title is-3"><span class="dperact">VoxPoser</span></h2>
 
         <!-- Interpolating. -->
-        <h3 class="title is-4">A Transformer for Detecting Actions</h3>
         <div class="content has-text-justified">
         <!-- <br> -->
         </div>
-        <p>
-          <span class="dperact">PerAct</span> is a language-conditioned behavior-cloning agent trained with supervised learning to <i>detect actions</i>. Instead of using object-detectors, instance-segmentors, or pose-estimators to represent a scene and then learning a policy, <span class="dperact">PerAct</span> directly learns <b>perceptual representations of actions</b> conditioned on language goals. This <a target="_blank" href="https://en.wikipedia.org/wiki/Ecological_psychology">action-centric approach</a> with a unified observation and action space makes <span class="dperact">PerAct</span> applicable to a broad range of tasks involving articulated objects, deformable objects, granular media, and even some non-prehensile interactions with tools.  
-        </p>
+        <img src="media/figures/method.jpg" class="interpolation-image" />
         </br>
         </br>
-        <img src="media/figures/arch.png" class="interpolation-image" 
-         alt="Interpolate start reference image." />
-        </br>
-        </br>
-          <p>
-              <span class="dperact">PerAct</span> takes as input a language goal and a voxel grid reconstructed from RGB-D sensors. The voxels are split into 3D patches (like <a target="_blank" href="https://arxiv.org/abs/2010.11929">vision transformers</a> split images into 2D patches), and the language goal is encoded with a pre-trained language model. The language and voxel features are appended together as a sequence and encoded with a <a target=”_blank” href="https://www.deepmind.com/blog/building-architectures-that-can-handle-the-worlds-data">PerceiverIO Transformer</a> to learn per-voxel features. These features are then reshaped with linear layers to predict a discretized translation, rotation, gripper open, and collision avoidance action, which can be executed with a motion-planner. 
-              <!-- This action is executed with a motion-planner after which the new observation is used to predict the next discrete action in an observe-act loop until termination.  -->
-              Overall, the voxelized observation and action space provides a strong structural prior for efficiently learning 6-DoF polices. Checkout our <a target="_blank" href="https://colab.research.google.com/drive/1HAqemP4cE81SQ6QO1-N85j5bF4C0qLs0?usp=sharing">Colab Tutorial</a> for an annotated guide on implemententing <span class="dperact">PerAct</span> and training it from scratch on a single GPU.
+          <p class="content has-text-justified">
+            Given the RGB-D observation of the environment and a language instruction, LLMs generate code, which interacts with VLMs, to produce a sequence of 3D affordance maps and constraint maps (collectively referred to as value maps) grounded in the observation space of the robot <strong>(a)</strong>. The composed value maps then serve as objective functions for motion planners to synthesize trajectories for robot manipulation <strong>(b)</strong>. The entire process does not involve any additional training.
           </p>
+          
         </br>
         </br>
-        <h3 class="title is-4">Encoding High-Dimensional Input</h3>
-          <p class="justify">
-            <img src="media/figures/perceiver.png" class="interpolation-image" width="480" align="right"
-                 style="margin:0% 4% "
-                 alt="Interpolate start reference image." />
-             The input grid is 100&times;100&times;100 = 1 million voxels. After extracting 5&times;5&times;5 patches, the input is 20&times;20&times;20 = 8000 embeddings long. Despite this long sequence, Perceiver uses a small set of latent vectors to encode the input. These latent vectors are randomly initialized and trained end-to-end. This approach decouples the depth of the Transformer self-attention layers from the dimensionality of the input space, which allows us train <span class="dperact">PerAct</span> on very large input voxel grids. Perceiver has been deployed in several domains like <a target="_blank" href="https://www.deepmind.com/publications/perceiver-ar-general-purpose-long-context-autoregressive-generation">long-context auto-regressive generation</a>, <a target="_blank" href="https://arxiv.org/abs/2204.14198">vision-language models for few-shot learning</a>, <a target="_blank" href="https://arxiv.org/abs/2107.14795">image and audio classification, and optical flow prediction.</a>
-          </p>
-        <br/>
-        <br/>
 
         <!--/ Re-rendering. -->
 
-        <h2 class="title is-3">Results</h2>
+        <h2 class="title is-3">Interactive Visualization</h2>
 
-        <h3 class="title is-4">Simulation Results</h3>
+
 
         <div class="columns">
           <div class="column has-text-centered">
-            <h3 class="title is-5">One Multi-Task Transformer</h3>
 
-            Trained with
-            <div class="select is-small">
-              <select id="single-menu-demos" onchange="updateSingleVideo()">
-              <option value="10">10</option>
-              <option value="100" selected="selected">100</option>
+            Visualize value maps for   
+            <div class="select is-small is-rounded">     
+              <select id="interative-menu" onchange="updateInteractive()">
+              <option value="hang-towel-1" selected="selected">"Hang towel on rack"</option>
+              <option value="close-drawer">"Close the top drawer."</option>
+              <option value="get-napkin">"Take out a napkin."</option>
+              <option value="open-bottle">"Turn open vitamin bottle."</option>
               </select>
             </div>
-            demos per task, evaluated on 
-            <div class="select is-small">     
-              <select id="single-menu-tasks" onchange="updateSingleVideo()">
-              <option value="open_drawer" selected="selected">open drawer</option>
-              <option value="slide_block">slide block</option>
-              <option value="sweep_to_dustpan">sweep to dustpan</option>
-              <option value="meat_off_grill">meat off grill</option>
-              <option value="turn_tap">turn tap</option>
-              <option value="put_in_drawer">put in drawer</option>
-              <option value="close_jar">close jar</option>
-              <option value="drag_stick">drag stick</option>
-              <option value="stack_blocks">stack blocks</option>
-              <option value="screw_bulb">screw bulb</option>
-              <option value="put_in_safe">put in safe</option>
-              <option value="place_wine">place wine</option>
-              <option value="put_in_cupboard">put in cupboard</option>
-              <option value="sort_shape">sort shape</option>
-              <option value="push_buttons">push buttons</option>
-              <option value="insert_peg">insert peg</option>
-              <option value="stack_cups">stack cups</option>
-              <option value="place_cups">place cups</option>
-              </select>
-            </div>
-            episode
-            <div class="select is-small">
-              <select id="single-menu-instances" onchange="updateSingleVideo()">
-              <option value="s1">01</option>
-              <option value="s2" selected="selected">02</option>
-              <option value="s3">03</option>
-              <option value="s4">04</option>
-              <option value="s5">05</option>
-              </select>
-            </div>
-            <br/>
-            <br/>
+          </div>
 
-            <video id="multi-task-result-video"
-                   muted
-                   autoplay
-                   loop
-                   width="100%">
-              <source src="media/results/sim_rollouts/n10-open_drawer-s2.mp4"
-                      type="video/mp4">
-            </video>
+        </div>
+
+        <div class="columns">
+          <div class="column is-half has-text-centered">
+            <p style="text-align:center;">
+              <video id="interactive-video" width="100%" height="100%" controls autoplay loop muted>
+                <source src="media/videos/close-drawer.mp4" type="video/mp4">
+              </video>
+            </p>
+          </div>
+          <div class="column has-text-centered">
+            <iframe id="interactive-html-1" src="media/interactive/close-drawer.html" width="100%" height="300" frameborder="0"></iframe>
+            <p style="text-align:center;">
+              Interactive Value Map 1
+            </p>
+          </div>
+          <div class="column has-text-centered" id="second-iframe-container">
+            <iframe id="interactive-html-2" src="media/interactive/close-drawer.html" width="100%" height="300" frameborder="0"></iframe>
+            <p style="text-align:center;">
+              Interactive Value Map 2
+            </p>
           </div>
         </div>
-        </br>
-        </br>
-
-        <h3 class="title is-4">Action Predictions</h3>
-
-        <div class="columns">
-          <div class="column has-text-centered">
-            <h3 class="title is-5">Q-Prediction Examples</h3>
-
-            Visualize predictions for   
-            <div class="select is-small is-rounded">     
-              <select id="single-menu-qpred" onchange="updateQpredVideo()">
-              <option value="tomato" selected="selected">"put the tomatoes in the top bin"</option>
-              <option value="stick">"hit the green ball with the stick"</option>
-              <option value="handsan">"press the hand san"</option>
-              <option value="tape">"put the tape in the top drawer"</option>
-              </select>
-            </div>
-          </div>
-
-      </div>
+        
+        
+        
     </div>
   </div>
 </section>
 
-<video id="q-pred-video"
-       muted
-       autoplay
-       loop
-       width="100%">
-  <source src="media/results/qpred/tomato.mp4"
-          type="video/mp4">
-</video>
 
-<br>
-<br>
 <section class="section">
   <div class="container is-max-widescreen">
 
     <div class="rows">
-      <h2 class="title is-3">Emergent Properties</h2>
+      <h2 class="title is-3">Execution under Disturbances</h2>
+      
+      <p class="content has-text-justified">
+        Because the language model output stays the same throughout the task, we can cache its output and re-evaluate the generated code using closed-loop visual feedback, which enables fast replanning using MPC. This enables VoxPoser to be robust to online disturbances.
+      </p>
+      
+      <div class="columns">
+        <div class="column has-text-centered">
+          <video id="dist1"
+            controls
+            muted
+            autoplay
+            loop
+            width="99%">
+            <source src="media/videos/sort-trash-in-tray-dist.mp4" 
+            type="video/mp4">
+          </video>
+          <p style="text-align:center">
+            "Sort the paper trash into the blue tray."
+          </p>
+        </div>
+    
+        <div class="column has-text-centered">
+          <video id="dist2"
+            controls
+            muted
+            autoplay
+            loop
+            width="99%">
+            <source src="media/videos/close-top-drawer-dist.mp4" 
+            type="video/mp4">
+          </video>
+          <p style="text-align:center">
+            "Close the top drawer."
+          </p>
+        </div>
+  </div>
+  </div>
+</section>
 
-      <h3 class="title is-4">Tracking Objects</h3>
-      A selected example of tracking an unseen hand sanitizer instance with an agent that was trained on a single object with 5 "press the handsan" demos. Since <span class="dperact">PerAct</span> focuses on actions, it doesn't need a complete representation of the bottle, and only has to predict <b><i>where</i> to press</b> the sanitizer.
+<section class="section">
+  <div class="container is-max-widescreen">
 
-      <video id="tracking-objects"
-             muted
-             autoplay
-             loop
-             width="99%">
-        <source src="media/results/animations/handsan_tracking_v2.mp4" 
-                type="video/mp4">
-      </video>
-
+    <div class="rows">
+      <h2 class="title is-3">Emergent Behavioral Capabilities</h2>
+      
+      <p class="content has-text-justified">
+        <li><strong>Estimating Physical Properties</strong>: given two blocks of unknown mass, the robot is tasked to conduct physics experiments using the available tools to determine which block is heavier.</li>
+        <li><strong>Behavioral Commonsense Reasoning</strong>: during a task where robot is setting the table, the user can specify behavioral preferences such as "I am left-handed", which requires the robot to comprehend its meaning in the context of the task.</li>
+        <li><strong>Fine-grained Language Correction</strong>: for tasks that require high precision such as "covering the teapot with the lid", user can give precise instructions to the robot such as "you're off by 1cm".</li>
+        <li><strong>Multi-step Visual Program</strong>: given a task "open the drawer precisely by half" where there is insufficient information because object models are not available, the robot can come up with multi-step manipulation strategies based on visual feedback that first opens the drawer fully while recording handle displacement, then close it back to the mid-point to satisfy the requirement.</li>
+      </p>
+      <br>
+      <div style="text-align: center;">
+        <img src="media/figures/emergent.png" class="interpolation-image" style="width: 70%; height: auto;"/>
+      </div>
     </div>
 
   </div>
 
 </section>
 
+<section class="section">
+  <div class="container is-max-widescreen">
+  <div class="row">
+    <h2 class="title is-3">
+      Prompts
+    </h2>
+    <p class="content has-text-justified">
+        Prompts in Real-World Environments:
+        <br>
+        <!-- https://vosposer-anon.github.io/ -->
+        <a href="prompts/real_planner_prompt.txt">Planner</a> |
+        <a href="prompts/real_composer_prompt.txt">Composer</a> |
+        <a href="prompts/real_parse_query_obj_prompt.txt">Parse Query Object</a> |
+        <a href="prompts/real_get_affordance_map_prompt.txt">Get Affordance Maps</a> |
+        <a href="prompts/real_get_avoidance_map_prompt.txt">Get Avoidance Maps</a> |
+        <a href="prompts/real_get_rotation_map_prompt.txt">Get Rotation Maps</a> |
+        <a href="prompts/real_get_velocity_map_prompt.txt">Get Velocity Maps</a> |
+        <a href="prompts/real_get_gripper_map_prompt.txt">Get Gripper Maps</a>
+    </p>
+    <p class="content has-text-justified">
+        Prompts in Simulation Environments (planners are not used in simulation):
+        <br>
+        <a href="prompts/sim_composer_prompt.txt">Composer</a> |
+        <a href="prompts/sim_parse_query_obj_prompt.txt">Parse Query Object</a> |
+        <a href="prompts/sim_get_affordance_map_prompt.txt">Get Affordance Maps</a> |
+        <a href="prompts/sim_get_avoidance_map_prompt.txt">Get Avoidance Maps</a> |
+        <a href="prompts/sim_get_rotation_map_prompt.txt">Get Rotation Maps</a> |
+        <a href="prompts/sim_get_velocity_map_prompt.txt">Get Velocity Maps</a> |
+        <a href="prompts/sim_get_gripper_map_prompt.txt">Get Gripper Maps</a>
+    </p>
+  </div>
+  </div>
+</section>
 
-<section class="section" id="BibTeX">
+
+<!-- <section class="section" id="BibTeX">
   <div class="container is-max-widescreen content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@inproceedings{shridhar2022peract,
@@ -518,7 +492,7 @@
   year      = {2022},
 }</code></pre>
   </div>
-</section>
+</section> -->
 
 
 <footer class="footer">
@@ -527,7 +501,7 @@
       <div class="column">
         <div class="content has-text-centered">
           <p>
-            Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> made by the amazing <a href="https://keunhong.com/">Keunhong Park</a>. 
+            Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> and <a href="https://peract.github.io/">PerAct</a>. 
           </p>
         </div>
       </div>

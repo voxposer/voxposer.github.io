@@ -23,7 +23,6 @@ body {
 
 .teaser .hero-body {
   padding-top: 0;
-  padding-bottom: 3rem;
 }
 
 .teaser {
@@ -140,7 +139,6 @@ body {
 .results-carousel video {
   margin: 0;
 }
-
 
 .interpolation-panel {
   background: #f5f5f5;

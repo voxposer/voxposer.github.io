@@ -1,0 +1,71 @@
+import numpy as np
+from perception_utils import detect
+
+objects = ['green block', 'yellow line']
+# Query: ee.
+ee = detect('ee')[0]
+ret_val = ee
+
+objects = ['drawer', 'blue block', 'yellow block']
+# Query: topmost handle.
+handles = detect('drawer handle')
+# topmost so sort by z, take the last one
+handles = sorted(handles, key=lambda x: x.position[2])
+top_handle = handles[-1]
+ret_val = top_handle
+
+objects = ['yellow block', 'pink block', 'brown line', 'pink block']
+# Query: second to the left block.
+blocks = detect('block')
+# second to the left so sort by y, take the second one
+blocks = sorted(blocks, key=lambda x: x.position[1])
+second_left_block = blocks[1]
+ret_val = second_left_block
+
+objects = ['blue line', 'pink line', 'green block']
+# Query: table.
+table = detect('table')[0]
+ret_val = table
+
+objects = ['green line', 'drawer', 'yellow block']
+# Query: second to the bottom handle.
+handles = detect('drawer handle')
+# second to the bottom so sort by z, take the second one
+handles = sorted(handles, key=lambda x: x.position[2])
+second_bottom_handle = handles[1]
+ret_val = second_bottom_handle
+
+objects = ['brown line', 'brown block']
+# Query: brown line.
+brown_line = detect('brown line')[0]
+ret_val = brown_line
+
+objects = ['green block', 'brown block', 'yellow line']
+# Query: block.
+block = detect('green block')[0]
+ret_val = block
+
+objects = ['pink block', 'pink line', 'blue block']
+# Query: block closest to the pink line.
+blocks = detect('block')
+pink_line = detect('pink line')[0]
+closest_block = min(blocks, key=lambda x: np.linalg.norm(x.position - pink_line.position))
+ret_val = closest_block
+
+objects = ['blue block', 'blue line', 'green block', 'pink block', 'brown block']
+# Query: the block that is on top of the blue block.
+blocks = detect('block')
+blue_block = detect('blue block')[0]
+# find the block that is on top of the blue block
+for block in blocks:
+    if block.position[2] > blue_block.position[2]:
+        ret_val = block
+        break
+
+objects = ['drawer']
+# Query: top drawer handle.
+handles = detect('drawer handle')
+# top drawer handle so sort by z, take the last one
+handles = sorted(handles, key=lambda x: x.position[2])
+top_handle = handles[-1]
+ret_val = top_handle

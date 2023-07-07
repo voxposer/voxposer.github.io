@@ -1,0 +1,91 @@
+import numpy as np
+from env_utils import execute, reset_to_default_pose
+from perception_utils import parse_query_obj
+from plan_utils import get_affordance_map, get_avoidance_map, get_velocity_map, get_rotation_map, get_gripper_map
+
+# Query: move ee forward for 7cm.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map(f'a point 7cm in front of {movable.position}')
+execute(movable, affordance_map)
+
+# Query: move to the left of the green block.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point 11cm to the left of the green block')
+execute(movable, affordance_map=affordance_map)
+
+# Query: move to the yellow block while staying on the front side the pink block.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point 11cm on top of the yellow block')
+avoidance_map = get_avoidance_map('anywhere behind the pink block')
+execute(movable, affordance_map=affordance_map, avoidance_map=avoidance_map)
+
+# Query: move to the back side of the table.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point on the back side of the table')
+execute(movable, affordance_map=affordance_map, avoidance_map=avoidance_map)
+
+# Query: move to the front right corner of the table while moving at faster speed when within 7cm from the yellow block.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point on the front right corner of the table')
+velocity_map = get_velocity_map('faster speed when within 7cm from the yellow block')
+execute(movable, affordance_map=affordance_map, velocity_map=velocity_map)
+
+# Query: move to 15cm on top of the rightmost block while avoiding the blue line and moving at a quarter of the speed on the right side of the table.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point 15cm on top of the rightmost block')
+avoidance_map = get_avoidance_map('the blue line')
+velocity_map = get_velocity_map('a quarter of the speed on the right side of the table')
+execute(movable, affordance_map=affordance_map, avoidance_map=avoidance_map, velocity_map=velocity_map)
+
+# Query: close the topmost drawer by pushing.
+movable = parse_query_obj('topmost drawer handle')
+affordance_map = get_affordance_map('a point 21cm into the topmost drawer handle')
+execute(movable, affordance_map=affordance_map)
+
+# Query: push the second to the left block along the brown line.
+movable = parse_query_obj('second to the left block')
+affordance_map = get_affordance_map('the brown line')
+execute(movable, affordance_map=affordance_map)
+
+# Query: grasp the blue block from the table at a quarter of the speed.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point at the center of blue block')
+rotation_map = get_rotation_map('face the blue block')
+velocity_map = get_velocity_map('quarter of the speed')
+gripper_map = get_gripper_map('open everywhere except 1cm around the blue block')
+execute(movable, affordance_map=affordance_map, rotation_map=rotation_map, velocity_map=velocity_map, gripper_map=gripper_map)
+
+# Query: move to the left of the brown block.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point 11cm to the left of the brown block')
+execute(movable, affordance_map=affordance_map)
+
+# Query: back to default pose.
+reset_to_default_pose()
+
+# Query: open gripper.
+movable = parse_query_obj('gripper')
+gripper_map = get_gripper_map('open everywhere')
+execute(movable, gripper_map=gripper_map)
+
+# Query: drop the blue block to the right side of the table while staying at least 7cm away from the brown block.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point on the right side of the table')
+avoidance_map = get_avoidance_map('7cm away from the brown block')
+gripper_map = get_gripper_map('close everywhere except 1cm around the right side of the table')
+execute(movable, affordance_map=affordance_map, avoidance_map=avoidance_map, gripper_map=gripper_map)
+
+# Query: move to the front side of the yellow block.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point 11cm in front of the yellow block')
+execute(movable, affordance_map=affordance_map)
+
+# Query: move to the back side of the table.
+movable = parse_query_obj('ee')
+affordance_map = get_affordance_map('a point on the back side of the table')
+execute(movable, affordance_map=affordance_map)
+
+# Query: stay away from the brown block.
+movable = parse_query_obj('ee')
+avoidance_map = get_avoidance_map('3cm away from the brown block')
+execute(movable, avoidance_map=avoidance_map)

@@ -1,0 +1,46 @@
+import numpy as np
+from plan_utils import get_empty_velocity_map, set_voxel_by_radius, cm2index
+from perception_utils import parse_query_obj
+
+# Query: faster when on the left side of the table and a quarter of the speed when on the other side of the table.
+velocity_map = get_empty_velocity_map()
+table = parse_query_obj('table')
+center_x, center_y, center_z = table.position
+# faster on left side so y < center_y
+velocity_map[:, :center_y, :] = 1.5
+# a quarter of the speed on the other side so y > center_y
+velocity_map[:, center_y:, :] = 0.25
+ret_val = velocity_map
+
+# Query: slow down by a quarter.
+velocity_map = get_empty_velocity_map()
+velocity_map[:] = 0.75
+ret_val = velocity_map
+
+# Query: quarter of the speed when within 9cm from the yellow block.
+velocity_map = get_empty_velocity_map()
+yellow_block = parse_query_obj('yellow block')
+set_voxel_by_radius(velocity_map, yellow_block.position, radius_cm=9, value=0.25)
+ret_val = velocity_map
+
+# Query: quarter of the speed in the back side of the table.
+velocity_map = get_empty_velocity_map()
+table = parse_query_obj('table')
+center_x, center_y, center_z = table.position
+# a quarter of the speed in the back side so x < center_x
+velocity_map[:center_x, :, :] = 0.25
+ret_val = velocity_map
+
+# Query: faster speed in the right side of the table.
+velocity_map = get_empty_velocity_map()
+table = parse_query_obj('table')
+center_x, center_y, center_z = table.position
+# faster in the right side so y > center_y
+velocity_map[:, center_y:, :] = 1.5
+ret_val = velocity_map
+
+# Query: quarter of the speed when within 11cm from the brown block.
+velocity_map = get_empty_velocity_map()
+brown_block = parse_query_obj('brown_block')
+set_voxel_by_radius(velocity_map, brown_block.position, radius_cm=11, value=0.25)
+ret_val = velocity_map
