@@ -151,12 +151,12 @@
 
             <!-- Code Link. -->
             <span class="link-block">
-              <a target="_blank" href="https://voxposer.github.io"
+              <a target="_blank" href="https://github.com/huangwl18/VoxPoser"
                  class="external-link button is-normal is-rounded is-dark">
                 <span class="icon">
                     <i class="fab fa-github"></i>
                 </span>
-                <span>Code (Coming Soon)</span>
+                <span>Code</span>
                 </a>
             </span>
             </div>
@@ -282,7 +282,7 @@
             In this work, we aim to synthesize robot trajectories, i.e., a dense sequence of 6-DoF end-effector waypoints,
             for a large variety of manipulation tasks given an <i>open-set</i> of instructions and an <i>open-set</i> of objects.
             We achieve this by first observing that LLMs excel at inferring affordances and constraints given a free-form language instruction
-            More importantly, by leveraging their code-writing capabilities, they can interact with a visual-language model (VLM) to compose 3D value maps to ground the knowledge into the observation space of the agent.
+            More importantly, by leveraging their code-writing capabilities, they can interact with a vision-language model (VLM) to compose 3D value maps to ground the knowledge into the observation space of the agent.
             The composed value maps are then used in a model-based planning framework to <i>zero-shot</i> synthesize closed-loop robot trajectories with robustness to dynamic perturbations.
             We further demonstrate how the proposed framework can benefit from online experiences by efficiently learning a dynamics model for scenes that involve contact-rich interactions.
             We present a large-scale study of the proposed method in both simulated and real-robot environments, showcasing the ability to perform a large variety of everyday manipulation tasks specified in free-form natural language.
@@ -438,14 +438,13 @@
       <h2 class="title is-3">Emergent Behavioral Capabilities</h2>
       
       <p class="content has-text-justified">
-        <li><strong>Estimating Physical Properties</strong>: given two blocks of unknown mass, the robot is tasked to conduct physics experiments using the available tools to determine which block is heavier.</li>
-        <li><strong>Behavioral Commonsense Reasoning</strong>: during a task where robot is setting the table, the user can specify behavioral preferences such as "I am left-handed", which requires the robot to comprehend its meaning in the context of the task.</li>
-        <li><strong>Fine-grained Language Correction</strong>: for tasks that require high precision such as "covering the teapot with the lid", user can give precise instructions to the robot such as "you're off by 1cm".</li>
-        <li><strong>Multi-step Visual Program</strong>: given a task "open the drawer precisely by half" where there is insufficient information because object models are not available, the robot can come up with multi-step manipulation strategies based on visual feedback that first opens the drawer fully while recording handle displacement, then close it back to the mid-point to satisfy the requirement.</li>
+        <li><strong>Behavioral Commonsense Reasoning</strong>: During a task where robot is setting the table, the user can specify behavioral preferences such as “I am left-handed”, which requires the robot to comprehend its meaning in the context of the task. VoxPoser decides that it should move the fork from the right side of the bowl to the left side.</li>
+        <li><strong>Fine-grained Language Correction</strong>: For tasks that require high precision such as “covering the teapot with the lid”, the user can give precise instructions to the robot such as “you’re off by 1cm”. VoxPoser similarly adjusts its action based on the feedback.</li>
+        <li><strong>Multi-step Visual Program</strong>: Given a task “open the drawer precisely by half” where there is insufficient information because object models are not available, VoxPoser can come up with multi-step manipulation strategies based on visual feedback that first opens the drawer fully while recording handle displacement, then close it back to the midpoint to satisfy the requirement.</li>
       </p>
       <br>
       <div style="text-align: center;">
-        <img src="media/figures/emergent.png" class="interpolation-image" style="width: 70%; height: auto;"/>
+        <img src="media/figures/emergent.jpg" class="interpolation-image" style="width: 100%; height: auto;"/>
       </div>
     </div>
 
